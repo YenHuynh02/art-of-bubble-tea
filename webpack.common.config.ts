@@ -6,7 +6,7 @@ import webpack, { Configuration as WebpackConfig } from 'webpack';
 const config: WebpackConfig = {
   entry: path.join(__dirname, 'frontend', 'src', 'index.tsx'),
   output: {
-    path: path.resolve(__dirname, 'backend', './public'),
+    path: path.resolve(__dirname, './public'),
     filename: '[name].bundle.js',
     publicPath: '/',
     clean: true,
