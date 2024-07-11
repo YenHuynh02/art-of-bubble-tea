@@ -38,3 +38,5 @@ public
 
 #any js file transpiled from ts
 backend/**/*.js
+
+deploy.sh
