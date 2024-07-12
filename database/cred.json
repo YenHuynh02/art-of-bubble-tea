@@ -1,0 +1,9 @@
+{
+  "database": {
+    "host": "127.0.0.1",
+    "port": 3306,
+    "user": "admin",
+    "password": "password",
+    "database": "art_of_bubble_tea_db"
+  }
+}

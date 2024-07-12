@@ -1,6 +1,9 @@
 import recipesRouter from "../backend/routes/recipes";
 import ordersRouter from "../backend/routes/orders";
 import dotenv from 'dotenv';
+
+import {initializeDatabase, testSeeds} from './db/testDatabse'
+
 const dotenvResult = dotenv.config();
 if (dotenvResult.error) {
   throw dotenvResult.error;

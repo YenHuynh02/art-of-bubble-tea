@@ -12,6 +12,7 @@
     "@babel/preset-react": "^7.24.1",
     "@babel/preset-typescript": "7.24.1",
     "@babel/register": "^7.23.7",
+    "@faker-js/faker": "^8.4.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
     "@tsconfig/node22": "^22.0.0",
     "@types/cors": "^2.8.17",
@@ -26,6 +27,7 @@
     "html-loader": "^5.0.0",
     "html-webpack-plugin": "^5.6.0",
     "mini-css-extract-plugin": "^2.9.0",
+    "mysql2": "^3.10.1",
     "nodemon": "^3.0.3",
     "postcss": "^8.4.38",
     "postcss-loader": "^8.1.1",
@@ -44,10 +46,12 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "mysql2": "^3.10.1",
     "pg": "^8.11.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.0",
-    "react-select": "^5.8.0"
+    "react-select": "^5.8.0",
+    "sequelize": "^6.37.3"
   }
 }
