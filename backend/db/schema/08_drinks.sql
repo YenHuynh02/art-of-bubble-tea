@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS Drinks CASCADE;
+
+CREATE TABLE Drinks (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  brand_id INT NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  availability BOOLEAN NOT NULL,
+  category VARCHAR(255) NOT NULL,
+  note VARCHAR(255),
+  FOREIGN KEY (brand_id) REFERENCES Brand_location(id) ON DELETE CASCADE
+);

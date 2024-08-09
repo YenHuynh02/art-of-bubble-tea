@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS Ingredients CASCADE;
+
+CREATE TABLE Ingredients (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  unit_of_measure VARCHAR(255) NOT NULL,
+  category VARCHAR(255) NOT NULL,
+  note VARCHAR(255)
+);

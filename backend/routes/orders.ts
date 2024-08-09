@@ -2,7 +2,7 @@
  * file order.ts contains the route for generating a random drink order.
  */
 import { Request, Response, Router } from "express";
-import { generateRandomDrink } from "../controller/logic";
+import { generateRandomDrink } from "../controllers/logic";
 
 const ordersRouter = Router();
 

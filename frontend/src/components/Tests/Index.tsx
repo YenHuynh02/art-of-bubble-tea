@@ -5,7 +5,7 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { toppings } from '@backend/db/data/kungfu/order-options';
 import { getRandomToppings } from '@backend/controller/logic';
-import SkeletonLoader from './SkeletonLoader'; // Import the skeleton loader
+import SkeletonLoader from './SkeletonLoader';
 
 interface CustomKFTea extends KFTeaDrink {
     id: number;

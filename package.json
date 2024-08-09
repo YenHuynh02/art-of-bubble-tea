@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:stress": "ts-node ./backend/db/tests/systemAsyncWriteTest.ts",
     "dev": "ts-node ./backend/index.ts",
     "build": "NODE_ENV=production webpack --config webpack.prod.config.ts"
   },

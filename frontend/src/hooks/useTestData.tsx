@@ -1,7 +1,7 @@
 import { KFTeaDrink } from '@backend/types/kf';
 import { useState, useMemo, useEffect } from 'react';
 import { debounce } from './useDebounce';
-import { getRandomDrinks } from '@backend/controller/logic';
+import { getRandomDrinks } from '@backend/controllers/logic';
 
 // Add id to KFTea
 interface CustomKFTea extends KFTeaDrink {

@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS Brand_location CASCADE;
+
+CREATE TABLE Brand_location (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  city VARCHAR(255) NOT NULL,
+  province VARCHAR(255) NOT NULL,
+  country VARCHAR(255) NOT NULL,
+  phone_number VARCHAR(15),
+  email VARCHAR(255)
+);

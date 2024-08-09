@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS User_test_results CASCADE;
+
+CREATE TABLE User_test_results (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  test_id INT NOT NULL,
+  correct INT NOT NULL,
+  note VARCHAR(255),
+  FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
+  FOREIGN KEY (test_id) REFERENCES Tests(id) ON DELETE CASCADE
+);

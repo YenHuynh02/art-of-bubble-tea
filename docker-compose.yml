@@ -1,6 +1,7 @@
 services:
   db:
     image: mysql/mysql-server
+
     restart: unless-stopped
     environment:
       - MYSQL_DATABASE=$MYSQLDB_DATABASE
