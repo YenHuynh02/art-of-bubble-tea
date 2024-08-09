@@ -5,6 +5,7 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { toppings } from '@backend/db/data/kungfu/order-options';
 import { getRandomToppings } from '@backend/controller/logic';
+import SkeletonLoader from './SkeletonLoader'; // Import the skeleton loader
 
 interface CustomKFTea extends KFTeaDrink {
     id: number;
@@ -17,10 +18,12 @@ export default function TestIndex() {
     const [isShuffledRequest, setIsShuffledRequest] = useState<boolean>(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [newTestTrigger, setNewTestTrigger] = useState<number>(0);
+    const [loading, setLoading] = useState<boolean>(false);
 
-	// Use for trigger the UseEffect 
+    // Use for trigger the UseEffect 
     const handleNewTest = () => {
         setNewTestTrigger(prev => prev + 1);
+        setLoading(true);
     };
 
     const {
@@ -34,10 +37,20 @@ export default function TestIndex() {
         requestShuffle: isShuffledRequest,
         resetOriginalOrder: isShuffled,
     });
+
+    // Loading effect for New Test button, changing page, and searching the items
+    useEffect(() => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000); 
+    }, [newTestTrigger, currentPage, filter]);
+
     const totalPages = Math.ceil(recipes.length / 10); // Pagination set to 10 by default
 
     const goToPage = (page: number) => {
         setCurrentPage(page);
+        setLoading(true);
     };
 
     const startIndex = (currentPage - 1) * 10; // Pagination set to 10 by default
@@ -98,6 +111,7 @@ export default function TestIndex() {
                                     onClick={() => {
                                         setFilter('');
                                         updateSearch('');
+                                        setLoading(true);
                                     }}
                                 >
                                     Clear
@@ -114,6 +128,7 @@ export default function TestIndex() {
                                         }
                                         setFilter((prev: any) => e.target.value);
                                         updateSearch(e.target.value);
+                                        setLoading(true);
                                     }}
                                 />
                             </div>
@@ -132,17 +147,21 @@ export default function TestIndex() {
                                 setIsShuffled((prev: any) => !prev);
                                 setIsShuffledRequest((prev: any) => true);
                                 handleNewTest();
+                                setLoading(true);
                             }}
                             role='button'
                         >
                             {'New Test'}
                         </div>
                         <select
+                            disabled={loading}
                             onChange={(e) => {
                                 if (currentPage !== 1) {
                                     setCurrentPage((curr: number) => 1);
                                 }
                                 setNumberOfQuestions(parseInt(e.target.value));
+                                setLoading(true);
+                                handleNewTest();
                             }}
                             className='bg-gray-50 ring-1 ring-black/20 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                         >
@@ -156,30 +175,41 @@ export default function TestIndex() {
                                 ))}
                         </select>
                     </div>
-                    {currentItems && totalPages > 1 && currentItems.length > 2 && (
-                        <div className='w-full justify-center flex flex-row items-center gap-x-3 md:gap-x-5'>
-                            {Array.from({ length: totalPages }, (_, index) => (
-                                <button
-                                    key={index + 1}
-                                    className={`${currentPage === index + 1
-                                        ? 'bg-blue-400 dark:bg-gray-800 text-white dark:font-semibold'
-                                        : 'bg-white dark:bg-gray-200 text-gray-400 dark:text-gray-400'
-                                        } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
-                                    onClick={() => goToPage(index + 1)}
-                                >
-                                    {index + 1}
-                                </button>
+                    {loading ? (
+                        // 5 box of skeleton display
+                        <div className='flex flex-col items-center gap-y-2 lg:gap-y-4 w-full'>
+                            {Array(5).fill(0).map((_, index) => (
+                                <SkeletonLoader key={index} width="100%" height="150px" />
                             ))}
                         </div>
-                    )}
-                    <div className='flex flex-col items-center gap-y-2 lg:gap-y-4'>
-                        {currentItems &&
-                            currentItems.map((answer: KFTeaDrink, index: number) => (
-                                <div key={index}>
-                                    <AnswerDisplay answer={answer} newTestTrigger={newTestTrigger} />
+                    ) : (
+                        <>
+                            {currentItems && totalPages > 1 && currentItems.length > 2 && (
+                                <div className='w-full justify-center flex flex-row items-center gap-x-3 md:gap-x-5'>
+                                    {Array.from({ length: totalPages }, (_, index) => (
+                                        <button
+                                            key={index + 1}
+                                            className={`${currentPage === index + 1
+                                                ? 'bg-blue-400 dark:bg-gray-800 text-white dark:font-semibold'
+                                                : 'bg-white dark:bg-gray-200 text-gray-400 dark:text-gray-400'
+                                                } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                                            onClick={() => goToPage(index + 1)}
+                                        >
+                                            {index + 1}
+                                        </button>
+                                    ))}
                                 </div>
-                            ))}
-                    </div>
+                            )}
+                            <div className='flex flex-col items-center gap-y-2 lg:gap-y-4'>
+                                {currentItems &&
+                                    currentItems.map((answer: KFTeaDrink, index: number) => (
+                                        <div key={index}>
+                                            <AnswerDisplay answer={answer} newTestTrigger={newTestTrigger} loading={loading} />
+                                        </div>
+                                    ))}
+                            </div>
+                        </>
+                    )}
                 </div>
                 {currentItems && currentItems.length > 0 && totalPages > 1 && (
                     <div className='p-2 flex flex-row items-center gap-3 md:gap-5'>
@@ -192,6 +222,7 @@ export default function TestIndex() {
                                     } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                                 onClick={() => {
                                     goToPage(index + 1);
+                                    setLoading(true);
                                     window.scrollTo({
                                         top: 0,
                                         behavior: 'smooth',
@@ -208,7 +239,7 @@ export default function TestIndex() {
     );
 }
 
-const AnswerDisplay = ({ answer, newTestTrigger }: { answer: any, newTestTrigger: number }) => {
+const AnswerDisplay = ({ answer, newTestTrigger, loading }: { answer: any, newTestTrigger: number, loading: boolean }) => {
     const { id, name, availability, note, ...others } = answer;
     const [newTestToppings, setNewTestToppings] = useState<ToppingOptions[]>([]);
 
@@ -242,9 +273,8 @@ const AnswerDisplay = ({ answer, newTestTrigger }: { answer: any, newTestTrigger
                 {answer?.name}
             </h3>
             <div className='flex flex-col lg:flex-row w-full justify-evenly gap-x-3 rounded-lg'>
-                <Ingredients {...others} newTestToppings={newTestToppings} />
+                    <Ingredients {...others} newTestToppings={newTestToppings} />
             </div>
-
             {note && (
                 <div className='border-t border-dotted border-gray-500 mt-3 w-full'>
                     <span className='text-gray-500 font-light text-[.8em] mb-2'>{'Note: '}</span>
@@ -267,7 +297,6 @@ export const toppingOptions: ToppingOptions[] = toppings.map((topping) => ({
     value: topping,
     label: topping,
 }));
-
 
 const Ingredients = ({
     toppings,
