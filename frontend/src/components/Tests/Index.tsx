@@ -4,7 +4,7 @@ import { KFTeaDrink } from '@backend/types/kf';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { toppings } from '@backend/db/data/kungfu/order-options';
-import { getRandomToppings } from '@backend/controller/logic';
+import { getRandomToppings } from '@backend/controllers/logic';
 import SkeletonLoader from './SkeletonLoader';
 
 interface CustomKFTea extends KFTeaDrink {
@@ -307,7 +307,7 @@ const Ingredients = ({
     newTestToppings: ToppingOptions[];
     [key: string]: any;
 }) => {
-    const [show, setShow] = useState(window.innerWidth > 768 ?? false);
+    const [show, setShow] = useState(window.innerWidth > 768);
     const animatedComponents = makeAnimated();
     const [selectedToppings, setSelectedToppings] = useState<ToppingOptions[]>([]);
     const [buttonHovered, setButtonHovered] = useState(false);
